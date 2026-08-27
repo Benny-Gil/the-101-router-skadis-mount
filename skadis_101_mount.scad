@@ -1,0 +1,305 @@
+// =============================================================================
+//  SKADIS mount kit for the rain "the101" 5G router
+// =============================================================================
+//
+//  MOUNT TYPE (researched, then confirmed against the base photo and the Shopee
+//  "Rain the101 Wall Mounting Bracket" listing):
+//
+//    the101 is a 230 x 230 x 56 mm rounded-square 5G CPE. Its underside has a
+//    shallow square WELL ringed by moulded plastic retention TABS. A flat plate
+//    slides in sideways and is captured under those tabs. There are no screw
+//    bosses in the router and no VESA pattern on the router itself.
+//
+//    Interface numbers:
+//      tab slot gap ......... 4.0 mm    (measured)
+//      tab width ............ 12  mm    (measured)
+//      OEM-style plate ...... 121 x 121 x 5.7 mm   (Shopee listing)
+//                             -> 4.0 mm at the edges that pass under the tabs,
+//                                5.7 mm across the raised centre pad, which
+//                                also tells us the well is ~5.7 mm deep.
+//      plate screw pattern .. 75 x 75 VESA on the "Vesa Compatible" variant.
+//      BUILD TARGET ......... 112 x 112 x 2.0 mm, with a 104 mm standoff ring.
+//                             Much thinner than the OEM plate - see tongue_t on
+//                             the slop that 2.0 mm in a 4.0 mm slot leaves.
+//
+//    So: a SLIDE-IN CAPTIVE PLATE. This file rebuilds that plate with SKADIS
+//    pegs on the back instead of wall screws.
+//
+//  SKADIS interface (IKEA pegboard):
+//    slots 5.0 x 15.0 mm on a plain 40 mm rectangular grid, board 5.2 mm thick.
+//    Accessories hang off the BOTTOM edge of a slot.
+//
+//  ORIENTATION - this matters:
+//    Hang the bracket so the router is lowered DOWN onto the tongue, i.e. the
+//    well's open side faces down once the router is up. Gravity then holds the
+//    plate seated, so no latch or detent is needed. To remove, lift.
+//
+//  PARTS - pick with `part` below:
+//    "bracket" - the slide-in captive plate. The real answer. Prints flat with
+//                no supports.
+//    "hooks"   - a pair of cradle hooks. Needs nothing but the published body
+//                size, so it works even if your unit's well differs at all.
+//    "gauge"   - 10 minute test print. Confirms the 4.0 mm slot and the 112 mm
+//                well on YOUR unit before you commit to the bracket print.
+// =============================================================================
+
+/* [What to render] */
+part = "bracket"; // [bracket:Slide-in plate, hooks:Cradle hooks, gauge:Tab gauge, all:All laid out]
+
+/* [SKADIS board - leave alone for a genuine board] */
+skadis_pitch = 40;    // slot grid pitch, both axes
+slot_w       = 5.0;   // slot width
+slot_h       = 15.0;  // slot height
+board_t      = 5.2;   // pegboard thickness (use 3.0 for the thin variant)
+
+/* [Printer fit tuning] */
+peg_clear = 0.4;  // subtracted from slot_w to get peg width. Raise if pegs bind.
+peg_gap   = 0.4;  // slop behind the board before the barb bites
+
+/* [Peg shape] */
+neck_h = 4.0;   // peg height sitting inside the slot
+barb_h = 5.0;   // how far the barb drops behind the board
+barb_d = 5.0;   // barb depth. Keep == barb_h: that is what makes the barb's
+                // underside a 45 deg self-supporting face.
+
+/* [Router interface - measured] */
+tab_gap    = 4.0;    // the 4 mm slot under the retention tabs
+tab_w      = 12.0;   // the 12 mm tab width
+plate_sq   = 112.0;  // build target. The OEM-style bracket is 121 x 121 x 5.7,
+                     // but 112 is what this unit's well takes.
+well_depth = 5.7;    // well floor to the router's outer rim. Over-estimating
+                     // this is safe - it only widens the air gap.
+tongue_fit = 0;      // extra clearance off plate_sq. Raise if it binds going in.
+
+/* [Slide-in bracket] */
+tongue_t = 2.0;   // plate thickness. NOTE this is still under the 4.0 mm tab
+                  // slot, so the plate has ~2.0 mm of slop and the router can
+                  // rock slightly. Raise toward 3.8 for a snug fit.
+air_gap  = 6.0;   // clear air behind the router's vented underside. The whole
+                  // point of the standoff ribs: mounted vertically, that face
+                  // would otherwise sit flat on the fibreboard.
+rib_w    = 10.0;  // standoff rib width. At 2.0 mm the plate leans on these for
+                  // most of its stiffness, so don't thin them much.
+rib_in   = 4.0;   // perimeter rib inset from the plate edge, i.e. the width of
+                  // the bare lip around the outside of the plate. Also sets the
+                  // ring's outer size: plate_sq - 2*rib_in = 104.
+lead_in  = 1.0;   // 45 deg chamfer on the tongue's leading (top) edge
+peg_cols = [-40, 0, 40];   // peg x positions. Spacings must be multiples of 40.
+peg_rows = [40, -40];      // peg y positions. Spacings must be multiples of 40.
+
+/* [Cradle hooks] */
+body_t       = 56;   // the101 body thickness, from rain's spec
+hook_plate_w = 30;   // backplate width
+hook_plate_h = 80;   // backplate height: 40 mm peg column + gusset tail below
+hook_plate_t = 5;    // backplate thickness
+hook_shelf_d = 62;   // shelf depth, body_t plus a little
+hook_shelf_t = 5;    // shelf thickness
+hook_lip_h   = 22;   // front lip, stops the router tipping off
+hook_lip_t   = 5;    // front lip thickness
+hook_gusset  = 24;   // web height. The backplate runs on DOWN past the shelf by
+                     // this much so the web has something to tie into - a web
+                     // above the shelf would foul the router body.
+
+/* [Gauge] */
+gauge_steps = [3.4, 3.6, 3.8, 4.0, 4.2, 4.4];
+gauge_reach = 26;   // how far each finger sticks out
+
+$fn = 64;
+
+// Standoff needed at the plate's back face. The plate sits 2.0 mm into a 5.7 mm
+// well, so the router's rim already hangs 3.7 mm proud of the plate's back and
+// the ribs have to clear that before the air gap even starts.
+standoff = air_gap + (well_depth - tongue_t);
+
+// =============================================================================
+//  SKADIS peg
+// =============================================================================
+//  Local origin sits on the plate's BACK face, neck top at y = 0. The peg grows
+//  into -Z: first across the standoff gap, then through the board, then the barb.
+//
+//  Fitting: push all pegs in near the top of their slots, then drop the part
+//  ~11 mm. The neck lands on the slot's bottom edge and the barb sits behind the
+//  board. neck_h + barb_h = 9 mm, comfortably inside the 15 mm slot.
+//
+//  Printing: with the plate's front face on the bed (pegs up) the barb's only
+//  overhang is its 45 deg ramp, so this needs no supports.
+
+module skadis_peg(so = 0) {
+    w   = slot_w - peg_clear;         // 4.6 in a 5.0 slot
+    nd  = so + board_t + peg_gap;     // neck depth: standoff, then through
+    tot = nd + barb_d;                // total protrusion behind the plate
+    ch  = 0.8;                        // lead-in chamfer on the back top corner
+
+    pts = [
+        [0,           0                ],
+        [-(tot - ch),  0               ],
+        [-tot,        -ch              ],
+        [-tot,        -(neck_h + barb_h)],  // barb tip: deepest and lowest
+        [-nd,         -neck_h          ],   // 45 deg ramp back up to the neck
+        [0,           -neck_h          ],
+    ];
+
+    translate([w / 2, 0, 0])
+        rotate([0, -90, 0])
+            linear_extrude(height = w)
+                polygon(pts);
+}
+
+// rounded square helper
+module rsq(size, r) {
+    offset(r = r) offset(r = -r) square([size, size], center = true);
+}
+
+// =============================================================================
+//  Part 1: slide-in captive plate
+// =============================================================================
+//  Plate front face (z = tongue_t) lies against the well floor and the tabs grip
+//  its edges. Standoff ribs and pegs grow into -Z toward the pegboard.
+//
+//  Deliberately ONE flat plate rather than a stepped plate with an oversailing
+//  slab: a step would leave an unsupported ledge on the bed. This way the whole
+//  thing prints face-down with nothing but the self-supporting peg barbs above.
+
+module slide_in_bracket() {
+    sq   = plate_sq - tongue_fit;              // 106.0
+    lead = min(lead_in, tongue_t * 0.6);       // never chamfer the plate away
+
+    // ---- plate, with a chamfered leading edge on +Y so it feeds under the
+    //      tabs instead of butting into them
+    difference() {
+        linear_extrude(height = tongue_t)
+            rsq(sq, 4);
+
+        translate([0, sq / 2, tongue_t])
+            rotate([45, 0, 0])
+                translate([-sq, -lead, -lead])
+                    cube([sq * 2, lead * 2, lead * 2]);
+    }
+
+    // ---- standoff ribs on the back: a perimeter ring plus a cross rib through
+    //      each peg row. The ring carries the load onto the board and stiffens
+    //      the plate; the cross ribs are the pegs' roots.
+    translate([0, 0, -standoff])
+        linear_extrude(height = standoff) {
+            // perimeter ring
+            difference() {
+                rsq(sq - 2 * rib_in, 4);
+                rsq(sq - 2 * rib_in - 2 * rib_w, 2);
+            }
+            // cross rib centred on each peg row's neck
+            for (y = peg_rows)
+                translate([0, y - neck_h / 2, 0])
+                    square([sq - 2 * rib_in, rib_w], center = true);
+        }
+
+    // ---- pegs
+    for (x = peg_cols, y = peg_rows)
+        translate([x, y, 0])
+            skadis_peg(standoff);
+}
+
+// =============================================================================
+//  Part 2: cradle hooks
+// =============================================================================
+//  No router measurements needed at all. Two of these, 160 mm apart (4 slot
+//  columns), carry the 230 mm wide body. The 62 mm shelf takes the full 56 mm
+//  depth and the lip stops it tipping off the front.
+//
+//  PRINT: lay it on its side, the 30 mm flat face on the bed. The body then
+//  extrudes in the bed plane with no overhangs at all. The two pegs are the only
+//  exception - give them tree supports.
+
+module cradle_hook() {
+    w  = hook_plate_w;
+    h  = hook_plate_h;
+    t  = hook_plate_t;
+    st = hook_shelf_t;
+    yb = -h / 2;                // backplate bottom edge
+    ys = yb + hook_gusset;      // shelf underside, sits a gusset's height up
+
+    union() {
+        // backplate
+        translate([-w / 2, yb, 0])
+            cube([w, h, t]);
+
+        // shelf. Router's bottom edge lands on its top face, at ys + st.
+        translate([-w / 2, ys, t])
+            cube([w, st, hook_shelf_d]);
+
+        // front lip, 1 mm clear of the router's front face
+        translate([-w / 2, ys, t + hook_shelf_d - hook_lip_t])
+            cube([w, st + hook_lip_h, hook_lip_t]);
+
+        // triangular web from the shelf's UNDERSIDE down the backplate
+        translate([w / 2, 0, 0])
+            rotate([0, -90, 0])
+                linear_extrude(height = w)
+                    polygon([
+                        [t,               ys],
+                        [t,               yb],
+                        [t + hook_gusset, ys],
+                    ]);
+    }
+
+    // two pegs in one column, 40 mm apart. A single peg would let the hook swing
+    // about its own axis; two rows lock it.
+    for (y = [skadis_pitch / 2, -skadis_pitch / 2])
+        translate([0, y, 0])
+            skadis_peg(0);
+}
+
+// =============================================================================
+//  Part 3: tab gauge
+// =============================================================================
+//  A comb of 12 mm fingers in 0.2 mm steps, matching the tab width. Slide each
+//  under one of the router's retention tabs. The thickest finger that goes in
+//  without forcing is your real slot gap: set tongue_t to that minus 0.2.
+//
+//  The 100 mm rule along the back measures the well, to check the 121 mm
+//  plate_sq figure against your own unit.
+
+module tab_gauge() {
+    spine_t = 5;
+    pitch   = tab_w + 6;
+    n       = len(gauge_steps);
+    span    = n * pitch;
+
+    // spine
+    translate([-span / 2, -12, 0])
+        cube([span, 12, spine_t]);
+
+    for (i = [0 : n - 1]) {
+        t = gauge_steps[i];
+        x = -span / 2 + i * pitch + 3;
+
+        // finger
+        translate([x, 0, 0])
+            cube([tab_w, gauge_reach, t]);
+
+        // embossed thickness label on the spine
+        translate([x + tab_w / 2, -6, spine_t])
+            linear_extrude(height = 0.6)
+                text(str(t), size = 4.5, halign = "center", valign = "center");
+    }
+
+    // 100 mm rule with 10 mm ticks along the back edge
+    translate([-50, -18, 0]) {
+        cube([100, 6, spine_t]);
+        for (i = [0 : 10])
+            translate([i * 10 - 0.6, -4, 0])
+                cube([1.2, 4, spine_t]);
+    }
+}
+
+// =============================================================================
+//  Render
+// =============================================================================
+
+if      (part == "bracket") slide_in_bracket();
+else if (part == "hooks")   cradle_hook();
+else if (part == "gauge")   tab_gauge();
+else if (part == "all") {
+    slide_in_bracket();
+    translate([-120, 0, 0]) cradle_hook();
+    translate([0, -120, 0]) tab_gauge();
+}
