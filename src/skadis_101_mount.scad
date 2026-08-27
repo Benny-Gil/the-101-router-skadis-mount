@@ -3,6 +3,7 @@
 // =============================================================================
 //  Copyright (c) 2026 Benny-Gil
 //  Licensed CC BY-SA 4.0 - see LICENSE. Credit and share alike.
+//  github.com/Benny-Gil/the-101-router-skadis-mount
 //
 //  MOUNT TYPE (read off a photo of this unit's base, then measured directly):
 //
