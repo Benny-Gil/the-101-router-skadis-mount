@@ -2,25 +2,23 @@
 //  SKADIS mount kit for the rain "the101" 5G router
 // =============================================================================
 //
-//  MOUNT TYPE (researched, then confirmed against the base photo and the Shopee
-//  "Rain the101 Wall Mounting Bracket" listing):
+//  MOUNT TYPE (read off a photo of this unit's base, then measured directly):
 //
 //    the101 is a 230 x 230 x 56 mm rounded-square 5G CPE. Its underside has a
 //    shallow square WELL ringed by moulded plastic retention TABS. A flat plate
 //    slides in sideways and is captured under those tabs. There are no screw
-//    bosses in the router and no VESA pattern on the router itself.
+//    bosses in the router.
 //
-//    Interface numbers:
+//    Interface numbers, all measured off the router itself. Commercially sold
+//    "the101 brackets" list dimensions that do not match this unit, so nothing
+//    here is taken from them:
 //      tab slot gap ......... 4.0 mm    (measured)
 //      tab width ............ 12  mm    (measured)
-//      OEM-style plate ...... 121 x 121 x 5.7 mm   (Shopee listing)
-//                             -> 4.0 mm at the edges that pass under the tabs,
-//                                5.7 mm across the raised centre pad, which
-//                                also tells us the well is ~5.7 mm deep.
-//      plate screw pattern .. 75 x 75 VESA on the "Vesa Compatible" variant.
+//      well width ........... 112 mm    (measured)
+//      well depth ........... NOT MEASURED - see well_depth below
 //      BUILD TARGET ......... 112 x 112 x 2.0 mm, with a 104 mm standoff ring.
-//                             Much thinner than the OEM plate - see tongue_t on
-//                             the slop that 2.0 mm in a 4.0 mm slot leaves.
+//                             2.0 mm in a 4.0 mm slot leaves ~2 mm of slop;
+//                             see tongue_t.
 //
 //    So: a SLIDE-IN CAPTIVE PLATE. This file rebuilds that plate with SKADIS
 //    pegs on the back instead of wall screws.
@@ -40,7 +38,8 @@
 //    "hooks"   - a pair of cradle hooks. Needs nothing but the published body
 //                size, so it works even if your unit's well differs at all.
 //    "gauge"   - 10 minute test print. Confirms the 4.0 mm slot and the 112 mm
-//                well on YOUR unit before you commit to the bracket print.
+//                well on YOUR unit, and its rule will measure the well depth
+//                that well_depth is currently only assuming.
 // =============================================================================
 
 /* [What to render] */
@@ -65,10 +64,12 @@ barb_d = 5.0;   // barb depth. Keep == barb_h: that is what makes the barb's
 /* [Router interface - measured] */
 tab_gap    = 4.0;    // the 4 mm slot under the retention tabs
 tab_w      = 12.0;   // the 12 mm tab width
-plate_sq   = 112.0;  // build target. The OEM-style bracket is 121 x 121 x 5.7,
-                     // but 112 is what this unit's well takes.
-well_depth = 5.7;    // well floor to the router's outer rim. Over-estimating
-                     // this is safe - it only widens the air gap.
+plate_sq   = 112.0;  // what this unit's well takes
+well_depth = 5.7;    // ASSUMED, not measured. Well floor down to the router's
+                     // outer rim. Only feeds the standoff. Over-estimating is
+                     // safe - it just widens the air gap. Under-estimating means
+                     // the ribs foul the rim and the plate will not seat, so
+                     // this deliberately errs high. Measure yours to tighten it.
 tongue_fit = 0;      // extra clearance off plate_sq. Raise if it binds going in.
 
 /* [Slide-in bracket] */
@@ -83,15 +84,16 @@ rib_w    = 6.0;   // standoff rib width. A rib's stiffness goes as its HEIGHT
                   // is doing the work - 10 mm of width was just mass. 6 mm still
                   // leaves 1 mm either side of a peg neck.
 
-/* [Weight saving] */
-lighten    = true;  // cut the dead centre out of the plate
-light_edge = 4.0;   // plate left between that cutout and the ribs
 rib_in   = 4.0;   // perimeter rib inset from the plate edge, i.e. the width of
                   // the bare lip around the outside of the plate. Also sets the
                   // ring's outer size: plate_sq - 2*rib_in = 104.
 lead_in  = 1.0;   // 45 deg chamfer on the tongue's leading (top) edge
 peg_cols = [-40, 0, 40];   // peg x positions. Spacings must be multiples of 40.
 peg_rows = [40, -40];      // peg y positions. Spacings must be multiples of 40.
+
+/* [Weight saving] */
+lighten    = true;  // cut the dead centre out of the plate
+light_edge = 4.0;   // plate left between that cutout and the ribs
 
 /* [Cradle hooks] */
 body_t       = 56;   // the101 body thickness, from rain's spec
@@ -112,9 +114,10 @@ gauge_reach = 26;   // how far each finger sticks out
 
 $fn = 64;
 
-// Standoff needed at the plate's back face. The plate sits 2.0 mm into a 5.7 mm
-// well, so the router's rim already hangs 3.7 mm proud of the plate's back and
-// the ribs have to clear that before the air gap even starts.
+// Standoff needed at the plate's back face. The plate sits tongue_t into the
+// well, so the router's rim hangs (well_depth - tongue_t) proud of the plate's
+// back and the ribs must clear that before the air gap even starts. With
+// well_depth only assumed, this errs high on purpose.
 standoff = air_gap + (well_depth - tongue_t);
 
 // =============================================================================

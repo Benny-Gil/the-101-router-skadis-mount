@@ -512,18 +512,24 @@
         sideways and is captured under those tabs.
       </p>
       <p>
-        There are no screw bosses in the router and no VESA pattern on the
-        router itself. The VESA holes on aftermarket brackets are on the
-        <em>plate</em>, for bolting that plate to a wall or an arm — which is
-        why searching for "the101 VESA" leads nowhere useful.
+        There are no screw bosses in the router. The tabs are the whole
+        interface: a <span class="num">4.0</span> mm slot,
+        <span class="num">12</span> mm wide at each tab, around a
+        <span class="num">112</span> mm well.
       </p>
       <p>
-        The clinching detail is the thickness mismatch. The commercial bracket
-        is
-        <span class="num">5.7</span> mm thick but the tab slot is only
-        <span class="num">4.0</span> mm. So the plate is 4 mm at the edges that
-        pass under the tabs and 5.7 mm across a raised centre pad — which also
-        pins the well depth at about 5.7 mm.
+        Every one of those came off this unit with calipers. Commercially sold
+        "the101 brackets" advertise dimensions that don't match it, so none of
+        their specs are used here — worth knowing if you go looking, because
+        their numbers point at a plate that won't fit.
+      </p>
+      <p>
+        One number is still unmeasured: the <strong>well depth</strong>, floor
+        down to the router's outer rim. It only feeds the standoff.
+        Over-estimating is safe — it just widens the air gap — while
+        under-estimating means the ribs foul the rim and the plate never seats.
+        So <code>well_depth</code> errs high at 5.7 mm on purpose, and the
+        gauge's rule will pin it down.
       </p>
     </div>
 
@@ -639,24 +645,19 @@
             <td class="src">Measured</td>
           </tr>
           <tr>
-            <td>OEM plate</td>
-            <td class="v">121 × 121 × 5.7 mm</td>
-            <td class="src">Shopee listing</td>
+            <td>Well width</td>
+            <td class="v">112 mm</td>
+            <td class="src">Measured</td>
           </tr>
           <tr>
             <td>Well depth</td>
-            <td class="v">~5.7 mm</td>
-            <td class="src">Inferred from plate</td>
+            <td class="v">5.7 mm</td>
+            <td class="src">Assumed, errs high</td>
           </tr>
           <tr>
             <td><strong>Build target</strong></td>
             <td class="v">112 × 112 × 2.0 mm</td>
             <td class="src">This plate</td>
-          </tr>
-          <tr>
-            <td>Plate screw pattern</td>
-            <td class="v">75 × 75 VESA</td>
-            <td class="src">"Vesa Compatible" variant</td>
           </tr>
           <tr>
             <td>Router body</td>
@@ -688,7 +689,7 @@
     <div class="note">
       <span class="tag">The one thing to get right</span>
       <p>
-        A slide-in plate needs something to stop it sliding back out. The OEM
+        A slide-in plate needs something to stop it sliding back out. The usual
         answer is a detent. The better answer is orientation: mount the bracket
         so the router is lowered <strong>down</strong> onto the plate, with the
         well's open side facing down once it's up.
@@ -934,12 +935,6 @@ openscad -o 101_skadis_gauge.stl   -D 'part="gauge"'   skadis_101_mount.scad</pr
       <li>
         <a href="https://www.rain.co.za/the101">rain — the101</a
         ><span class="what">230 × 230 × 56 mm</span>
-      </li>
-      <li>
-        <a
-          href="https://shopee.ph/Rain-the101-Wall-Mounting-Bracket-i.64946953.55854593765"
-          >Shopee — the101 Wall Mounting Bracket</a
-        ><span class="what">121 × 121 × 5.7 mm plate</span>
       </li>
       <li>
         <a

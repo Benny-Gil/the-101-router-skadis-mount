@@ -15,22 +15,23 @@ the101 is a 230 × 230 × 56 mm rounded-square 5G CPE. Its underside has a shall
 square **well** ringed by moulded plastic **retention tabs**. A flat plate slides
 in sideways and is captured under those tabs.
 
-There are no screw bosses in the router and no VESA pattern on the router itself
-— the VESA holes you see on aftermarket brackets are on the _plate_, for bolting
-the plate to a wall or arm.
+There are no screw bosses in the router. Every number below is measured off this
+unit — commercially sold "the101 brackets" list dimensions that do not match it,
+so none of their specs are used here.
 
-|                     |                                                 |
-| ------------------- | ----------------------------------------------- |
-| Tab slot gap        | 4.0 mm                                          |
-| Tab width           | 12 mm                                           |
-| OEM-style plate     | 121 × 121 × 5.7 mm                              |
-| Well depth          | ~5.7 mm                                         |
-| Plate screw pattern | 75 × 75 VESA (on the "Vesa Compatible" variant) |
-| **Build target**    | **112 × 112 × 2.0 mm**                          |
+|                  |                          | |
+| ---------------- | ------------------------ | --------------- |
+| Tab slot gap     | 4.0 mm                   | measured |
+| Tab width        | 12 mm                    | measured |
+| Well width       | 112 mm                   | measured |
+| Router body      | 230 × 230 × 56 mm        | rain.co.za |
+| Well depth       | 5.7 mm                   | **assumed — see below** |
+| **Build target** | **112 × 112 × 2.0 mm**   | |
 
-The 5.7 mm plate thickness vs. the 4.0 mm tab gap is the giveaway: the plate is
-4 mm at the edges that pass under the tabs and 5.7 mm across a raised centre pad,
-which also pins the well depth at about 5.7 mm.
+`well_depth` is the one number nobody has measured. It only feeds the standoff.
+Over-estimating is safe — it just widens the air gap — while under-estimating
+means the ribs foul the router's rim and the plate never seats, so it errs high
+on purpose. Measure yours with the gauge's rule to tighten it.
 
 SKÅDIS side: slots are 5.0 × 15.0 mm on a plain 40 mm rectangular grid, board is
 5.2 mm thick, and accessories hang off the **bottom** edge of a slot.
@@ -89,7 +90,8 @@ Print this first. It is 10 minutes and ~10 g, and it derisks the bracket.
 
 - If you want a snug plate rather than the thin one, set `tongue_t` to
   _(measured gap − 0.2)_.
-- Use the rule to check the well against the 112 mm `plate_sq` figure.
+- Use the rule to check the well against the 112 mm `plate_sq` figure, and to
+  measure the well depth that `well_depth` is currently only assuming.
 
 ## Tuning
 
@@ -111,7 +113,7 @@ to touch:
 
 Note `tongue_t` also drives the standoff: the ribs have to clear however far the
 router's rim hangs past the plate, so a thinner plate means taller ribs and
-longer pegs. Over-estimating `well_depth` is safe — it only widens the air gap.
+longer pegs.
 
 Re-export with:
 
@@ -159,7 +161,9 @@ moment; the pegs mostly just stop it falling off.
 ## Sources
 
 - [rain — the101](https://www.rain.co.za/the101) — 230 × 230 × 56 mm
-- [Shopee — Rain the101 Wall Mounting Bracket](https://shopee.ph/Rain-the101-Wall-Mounting-Bracket-i.64946953.55854593765) — 121 × 121 × 5.7 mm plate
 - [TechCentral — rain unveils 'the101'](https://techcentral.co.za/rain-the101-5g-smart-router-raipr/234417/) — platform details
+
+Everything about the mounting interface came from measuring the unit, not from
+any of these.
 - [Parametric SKÅDIS Board Generator](https://www.printables.com/model/206256-parametric-skadis-board-generator) — 5 mm nominal slot width
 - [IKEA SKÅDIS Add-Ons](https://makerworld.com/en/models/799571-ikea-skadis-add-ons-parametric-bins-and-shelves) — published hook geometry
