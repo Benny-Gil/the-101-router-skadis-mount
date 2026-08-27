@@ -179,4 +179,5 @@ moment — the pegs mostly just stop it falling off.
 - [Parametric SKÅDIS Board Generator](https://www.printables.com/model/206256-parametric-skadis-board-generator) — 5 mm nominal slot width
 - [IKEA SKÅDIS Add-Ons](https://makerworld.com/en/models/799571-ikea-skadis-add-ons-parametric-bins-and-shelves) — published hook geometry
 
-Parametric OpenSCAD · both parts verified manifold.
+Parametric OpenSCAD · both parts verified manifold ·
+[CC BY-SA 4.0](../LICENSE)
