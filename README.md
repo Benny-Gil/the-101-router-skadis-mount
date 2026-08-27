@@ -26,7 +26,7 @@ the plate to a wall or arm.
 | OEM-style plate     | 121 × 121 × 5.7 mm                              |
 | Well depth          | ~5.7 mm                                         |
 | Plate screw pattern | 75 × 75 VESA (on the "Vesa Compatible" variant) |
-| **Build target**    | **112 × 112 × 1.6 mm**                          |
+| **Build target**    | **112 × 112 × 2.0 mm**                          |
 
 The 5.7 mm plate thickness vs. the 4.0 mm tab gap is the giveaway: the plate is
 4 mm at the edges that pass under the tabs and 5.7 mm across a raised centre pad,
@@ -37,14 +37,14 @@ SKÅDIS side: slots are 5.0 × 15.0 mm on a plain 40 mm rectangular grid, board 
 
 ## Part 1 — the bracket (the real answer)
 
-A 112 × 112 × 1.6 mm plate that slides into the well under the tabs, with six
+A 112 × 112 × 2.0 mm plate that slides into the well under the tabs, with six
 SKÅDIS pegs on the back.
 
 **Hang it so the router is lowered DOWN onto the tongue** — i.e. the well's open
 side faces down once the router is up. Gravity then holds the plate seated, so it
 needs no latch or detent. To remove, lift.
 
-> **Fit note.** 1.6 mm sits in a 4.0 mm tab slot, so the plate has ~2.4 mm of
+> **Fit note.** 2.0 mm sits in a 4.0 mm tab slot, so the plate has ~2.0 mm of
 > slop and the router can rock on it slightly. That is the cost of the thin
 > plate, not a bug. Raise `tongue_t` toward 3.8 for a snug fit.
 
@@ -60,9 +60,9 @@ slab — a step would leave an unsupported ledge on the bed.
 
 - **Print face-down, ribs and pegs up. No supports.** The peg barbs are ramped at
   45° so they self-support.
-- 3 walls, 25 % infill, 0.2 mm. ~40 g, roughly 3 h.
-- Keep the layer height a divisor of `tongue_t`. At 1.6 mm that means 0.2 mm
-  (8 layers) — 0.28 mm gives 5.7 and the slicer will round the plate off spec.
+- 3 walls, 25 % infill, 0.2 mm. ~28 g, roughly 2 h.
+- Keep the layer height a divisor of `tongue_t`. At 2.0 mm that means 0.2 mm
+  (10 layers) — 0.28 mm gives 7.1 and the slicer will round the plate off spec.
 - PETG holds up better than PLA if the router runs warm or the board is in sun.
 
 ## Part 2 — the cradle hooks
@@ -105,7 +105,9 @@ to touch:
 | `board_t`    | 5.2     | You have the 3 mm SKÅDIS variant                  |
 | `air_gap`    | 6.0     | Want the router closer to / further off the board |
 | `rib_in`     | 4.0     | Width of the bare lip; also sets the ring outer     |
-| `rib_w`      | 10.0    | Leave it — at 1.6 mm the ribs are the stiffness   |
+| `lighten`    | true    | Set false for a solid plate with no centre window  |
+| `light_edge` | 4.0     | Plate left between the window and the ribs         |
+| `rib_w`      | 6.0     | Below ~5 there is no margin either side of a peg   |
 
 Note `tongue_t` also drives the standoff: the ribs have to clear however far the
 router's rim hangs past the plate, so a thinner plate means taller ribs and
@@ -119,12 +121,40 @@ openscad -o 101_skadis_hooks.stl   -D 'part="hooks"'   skadis_101_mount.scad
 openscad -o 101_skadis_gauge.stl   -D 'part="gauge"'   skadis_101_mount.scad
 ```
 
+## Weight
+
+The bracket started at 74.2 cm³ and is now **49.6 cm³, ~28 g — 33 % lighter**.
+Two changes, neither of which costs meaningful strength:
+
+**Narrower ribs, 10 → 6 mm.** A rib's bending stiffness goes as its *height*
+cubed and only linearly with width. The 9.7 mm standoff was always doing the
+work; 10 mm of width was mass. This drops rib second moment to 60 % of before,
+against margins that were already ~40× — and 6 mm still leaves 1 mm either side
+of a peg neck.
+
+**A window through the dead centre of the plate.** The tabs grip the perimeter
+and the load runs perimeter → ring → cross ribs → pegs, all of it outside the
+84 × 62 mm cutout. It vents the well as a bonus.
+
+Set `lighten = false` to get the solid plate back.
+
+For more, go after the slicer rather than the model: 2 walls and 15 % infill
+takes another few grams. The ribs are only 6 mm wide, so most of their volume is
+perimeter either way — the geometry is what saved the weight here.
+
 ## Load
 
 A ~1 kg router on six pegs is well within both the pegs and a 5 mm SKÅDIS panel.
-Peak bending stress in a peg neck works out around 1 MPa against PLA's ~50 MPa
-yield. The perimeter rib bearing flat on the board is what actually takes the
-tipping moment.
+Worst case after lightweighting:
+
+| Path | Stress | Against |
+| ---- | ------ | ------- |
+| Peg neck bending | 1.3 MPa | ~50 MPa yield |
+| 4 mm lip at a tab | 0.6 MPa | ~50 MPa yield |
+| Rib bearing on the board | 0.003 MPa | over 3600 mm² |
+
+The perimeter ring bearing flat on the board is what actually takes the tipping
+moment; the pegs mostly just stop it falling off.
 
 ## Sources
 

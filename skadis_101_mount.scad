@@ -78,8 +78,14 @@ tongue_t = 2.0;   // plate thickness. NOTE this is still under the 4.0 mm tab
 air_gap  = 6.0;   // clear air behind the router's vented underside. The whole
                   // point of the standoff ribs: mounted vertically, that face
                   // would otherwise sit flat on the fibreboard.
-rib_w    = 10.0;  // standoff rib width. At 2.0 mm the plate leans on these for
-                  // most of its stiffness, so don't thin them much.
+rib_w    = 6.0;   // standoff rib width. A rib's stiffness goes as its HEIGHT
+                  // cubed and only linearly with width, so the 9.7 mm standoff
+                  // is doing the work - 10 mm of width was just mass. 6 mm still
+                  // leaves 1 mm either side of a peg neck.
+
+/* [Weight saving] */
+lighten    = true;  // cut the dead centre out of the plate
+light_edge = 4.0;   // plate left between that cutout and the ribs
 rib_in   = 4.0;   // perimeter rib inset from the plate edge, i.e. the width of
                   // the bare lip around the outside of the plate. Also sets the
                   // ring's outer size: plate_sq - 2*rib_in = 104.
@@ -145,10 +151,11 @@ module skadis_peg(so = 0) {
                 polygon(pts);
 }
 
-// rounded square helper
-module rsq(size, r) {
-    offset(r = r) offset(r = -r) square([size, size], center = true);
+// rounded rectangle / square helpers
+module rrect(w, h, r) {
+    offset(r = r) offset(r = -r) square([w, h], center = true);
 }
+module rsq(size, r) { rrect(size, size, r); }
 
 // =============================================================================
 //  Part 1: slide-in captive plate
@@ -161,8 +168,16 @@ module rsq(size, r) {
 //  thing prints face-down with nothing but the self-supporting peg barbs above.
 
 module slide_in_bracket() {
-    sq   = plate_sq - tongue_fit;              // 106.0
+    sq   = plate_sq - tongue_fit;              // 112.0
     lead = min(lead_in, tongue_t * 0.6);       // never chamfer the plate away
+
+    // The dead centre of the plate: everything inside the ring and between the
+    // two cross ribs. No load path runs through it, so it is the one place mass
+    // can leave without costing anything.
+    ring_in = sq - 2 * rib_in - 2 * rib_w;                      // ring's bore
+    rib_in_edge = abs(peg_rows[0]) - neck_h / 2 - rib_w / 2;    // cross rib inner edge
+    win_x = ring_in - 2 * light_edge;
+    win_y = 2 * rib_in_edge - 2 * light_edge;
 
     // ---- plate, with a chamfered leading edge on +Y so it feeds under the
     //      tabs instead of butting into them
@@ -174,6 +189,14 @@ module slide_in_bracket() {
             rotate([45, 0, 0])
                 translate([-sq, -lead, -lead])
                     cube([sq * 2, lead * 2, lead * 2]);
+
+        // weight-saving window. The tabs grip the perimeter and the load runs
+        // perimeter -> ring -> cross ribs -> pegs, all of it outside this hole,
+        // so it costs no strength. It also vents the well.
+        if (lighten)
+            translate([0, 0, -1])
+                linear_extrude(height = tongue_t + 2)
+                    rrect(win_x, win_y, 8);
     }
 
     // ---- standoff ribs on the back: a perimeter ring plus a cross rib through
