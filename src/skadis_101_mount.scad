@@ -9,9 +9,9 @@
 //    slides in sideways and is captured under those tabs. There are no screw
 //    bosses in the router.
 //
-//    Interface numbers, all measured off the router itself. Commercially sold
-//    "the101 brackets" list dimensions that do not match this unit, so nothing
-//    here is taken from them:
+//    Interface numbers, all measured off the router itself with calipers.
+//    Commercially sold "the101 brackets" list dimensions that do not match this
+//    unit, so nothing here is taken from them:
 //      tab slot gap ......... 4.0 mm    (measured)
 //      tab width ............ 12  mm    (measured)
 //      well width ........... 112 mm    (measured)
@@ -37,13 +37,10 @@
 //                no supports.
 //    "hooks"   - a pair of cradle hooks. Needs nothing but the published body
 //                size, so it works even if your unit's well differs at all.
-//    "gauge"   - 10 minute test print. Confirms the 4.0 mm slot and the 112 mm
-//                well on YOUR unit, and its rule will measure the well depth
-//                that well_depth is currently only assuming.
 // =============================================================================
 
 /* [What to render] */
-part = "bracket"; // [bracket:Slide-in plate, hooks:Cradle hooks, gauge:Tab gauge, all:All laid out]
+part = "bracket"; // [bracket:Slide-in plate, hooks:Cradle hooks, all:Both laid out]
 
 /* [SKADIS board - leave alone for a genuine board] */
 skadis_pitch = 40;    // slot grid pitch, both axes
@@ -62,8 +59,8 @@ barb_d = 5.0;   // barb depth. Keep == barb_h: that is what makes the barb's
                 // underside a 45 deg self-supporting face.
 
 /* [Router interface - measured] */
-tab_gap    = 4.0;    // the 4 mm slot under the retention tabs
-tab_w      = 12.0;   // the 12 mm tab width
+tab_gap    = 4.0;    // the 4 mm slot under the retention tabs. Asserted against
+                     // tongue_t below: a plate thicker than this will not enter.
 plate_sq   = 112.0;  // what this unit's well takes
 well_depth = 5.7;    // ASSUMED, not measured. Well floor down to the router's
                      // outer rim. Only feeds the standoff. Over-estimating is
@@ -100,7 +97,7 @@ body_t       = 56;   // the101 body thickness, from rain's spec
 hook_plate_w = 30;   // backplate width
 hook_plate_h = 80;   // backplate height: 40 mm peg column + gusset tail below
 hook_plate_t = 5;    // backplate thickness
-hook_shelf_d = 62;   // shelf depth, body_t plus a little
+hook_shelf_d = body_t + 6;   // shelf depth, the body plus a little
 hook_shelf_t = 5;    // shelf thickness
 hook_lip_h   = 22;   // front lip, stops the router tipping off
 hook_lip_t   = 5;    // front lip thickness
@@ -108,11 +105,10 @@ hook_gusset  = 24;   // web height. The backplate runs on DOWN past the shelf by
                      // this much so the web has something to tie into - a web
                      // above the shelf would foul the router body.
 
-/* [Gauge] */
-gauge_steps = [3.4, 3.6, 3.8, 4.0, 4.2, 4.4];
-gauge_reach = 26;   // how far each finger sticks out
-
 $fn = 64;
+
+assert(tongue_t <= tab_gap,
+       "tongue_t exceeds tab_gap - the plate will not enter the tab slot");
 
 // Standoff needed at the plate's back face. The plate sits tongue_t into the
 // well, so the router's rim hangs (well_depth - tongue_t) proud of the plate's
@@ -275,57 +271,12 @@ module cradle_hook() {
 }
 
 // =============================================================================
-//  Part 3: tab gauge
-// =============================================================================
-//  A comb of 12 mm fingers in 0.2 mm steps, matching the tab width. Slide each
-//  under one of the router's retention tabs. The thickest finger that goes in
-//  without forcing is your real slot gap: set tongue_t to that minus 0.2.
-//
-//  The 100 mm rule along the back measures the well, to check the 121 mm
-//  plate_sq figure against your own unit.
-
-module tab_gauge() {
-    spine_t = 5;
-    pitch   = tab_w + 6;
-    n       = len(gauge_steps);
-    span    = n * pitch;
-
-    // spine
-    translate([-span / 2, -12, 0])
-        cube([span, 12, spine_t]);
-
-    for (i = [0 : n - 1]) {
-        t = gauge_steps[i];
-        x = -span / 2 + i * pitch + 3;
-
-        // finger
-        translate([x, 0, 0])
-            cube([tab_w, gauge_reach, t]);
-
-        // embossed thickness label on the spine
-        translate([x + tab_w / 2, -6, spine_t])
-            linear_extrude(height = 0.6)
-                text(str(t), size = 4.5, halign = "center", valign = "center");
-    }
-
-    // 100 mm rule with 10 mm ticks along the back edge
-    translate([-50, -18, 0]) {
-        cube([100, 6, spine_t]);
-        for (i = [0 : 10])
-            translate([i * 10 - 0.6, -4, 0])
-                cube([1.2, 4, spine_t]);
-    }
-}
-
-// =============================================================================
 //  Render
 // =============================================================================
 
 if      (part == "bracket") slide_in_bracket();
 else if (part == "hooks")   cradle_hook();
-else if (part == "gauge")   tab_gauge();
 else if (part == "all") {
     slide_in_bracket();
     translate([-120, 0, 0]) cradle_hook();
-    translate([0, -120, 0]) tab_gauge();
 }

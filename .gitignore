@@ -1,3 +1,5 @@
-.DS_Store
+# slicer output stays local — the STLs in stl/ are the shared artefact
 *.gcode
 *.3mf
+
+.DS_Store

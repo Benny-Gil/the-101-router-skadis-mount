@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 390" width="620" height="390"
+     role="img"
+     aria-label="Cross-section through the pegboard, the printed plate and the router's base, showing the peg hooking behind the board, the standoff rib holding a 6 mm air gap, and a retention tab capturing the plate's edge.">
+  <style>
+    .sv-part  { fill: #6e7a87; }
+    .sv-board { fill: #c9d1d9; }
+    .sv-peg   { fill: #c6491a; }
+    .sv-body  { fill: none; stroke: #59626c; stroke-width: 1.6; }
+    .sv-dim   { stroke: #8a939d; stroke-width: 1; }
+    .sv-lead  { stroke: #cfd6de; stroke-width: 1; stroke-dasharray: 3 3; }
+    .sv-t     { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+                font-size: 11px; fill: #59626c; }
+    .sv-t.hl  { fill: #c6491a; font-weight: 500; }
+    .sv-lab   { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+                font-size: 9.5px; letter-spacing: 0.08em; fill: #8a939d; }
+  </style>
+
+  <defs>
+    <pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#8a939d" stroke-width="1.1" opacity="0.4"/>
+    </pattern>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M0.6,1.4 L5,4 L0.6,6.6" fill="none" stroke="#8a939d" stroke-width="1"/>
+    </marker>
+  </defs>
+
+  <!-- paper, so the drawing reads on a light or a dark page -->
+  <rect x="0" y="0" width="620" height="390" rx="3" fill="#ffffff"/>
+
+  <!-- ===== the101 body: solid right of the well floor ===== -->
+  <rect x="235.3" y="20" width="345" height="280" fill="#e3e8ed"/>
+  <path class="sv-body" d="M 184 20 L 184 30 L 235.3 30 L 235.3 300 L 184 300 L 184 312"/>
+  <path class="sv-body" d="M 580 20 L 580 300"/>
+  <text class="sv-lab" x="420" y="175" text-anchor="middle">THE101 BODY</text>
+  <text class="sv-lab" x="420" y="190" text-anchor="middle">230 × 230 × 56</text>
+
+  <!-- ===== retention tab: arm off the well floor, lip hooking the plate ===== -->
+  <path class="sv-body" style="fill: #c9d1d9"
+        d="M 235.3 40 L 199.3 40 L 199.3 106 L 187 106 L 187 54 L 235.3 54 Z"/>
+  <text class="sv-lab" x="248" y="70">RETENTION TAB · 12 mm wide</text>
+  <text class="sv-lab" x="248" y="85">4.0 mm slot</text>
+
+  <!-- ===== the printed plate, 2.0 mm, seated in the well (18 units = 9/mm) ===== -->
+  <rect class="sv-part" x="217.3" y="62" width="18" height="238"/>
+
+  <!-- ===== standoff rib, 9.7 mm, merged with the peg's root ===== -->
+  <rect class="sv-part" x="130" y="164" width="87.3" height="90"/>
+
+  <!-- ===== SKÅDIS board, split by the 15 mm slot (y 92..227) ===== -->
+  <g>
+    <rect class="sv-board" x="83.2" y="20" width="46.8" height="72"/>
+    <rect x="83.2" y="20" width="46.8" height="72" fill="url(#hatch)"/>
+    <rect class="sv-board" x="83.2" y="227" width="46.8" height="73"/>
+    <rect x="83.2" y="227" width="46.8" height="73" fill="url(#hatch)"/>
+  </g>
+  <text class="sv-lab" x="106" y="14" text-anchor="middle">SKÅDIS</text>
+  <line class="sv-lead" x1="62" y1="124" x2="83.2" y2="124"/>
+  <text class="sv-lab" x="20" y="115">15 mm</text>
+  <text class="sv-lab" x="20" y="128">SLOT</text>
+
+  <!-- ===== peg: flat top the full depth, 45 deg ramp down to the barb ===== -->
+  <path class="sv-peg" d="M 217.3 191 L 41.8 191 L 34.6 198.2 L 34.6 272 L 79.6 227 L 217.3 227 Z"/>
+  <line class="sv-dim" x1="199.3" y1="132" x2="217.3" y2="132"
+        marker-start="url(#ar)" marker-end="url(#ar)"/>
+  <text class="sv-t hl" x="188" y="136" text-anchor="end">2.0 slop</text>
+  <text class="sv-lab" x="40" y="184">PEG</text>
+  <text class="sv-lab" x="36" y="292">BARB</text>
+
+  <!-- ===== dimensions ===== -->
+  <g>
+    <line class="sv-lead" x1="83.2"  y1="302" x2="83.2"  y2="322"/>
+    <line class="sv-lead" x1="130"   y1="302" x2="130"   y2="366"/>
+    <line class="sv-lead" x1="184"   y1="312" x2="184"   y2="366"/>
+    <line class="sv-lead" x1="217.3" y1="302" x2="217.3" y2="322"/>
+    <line class="sv-lead" x1="235.3" y1="302" x2="235.3" y2="322"/>
+
+    <line class="sv-dim" x1="83.2" y1="322" x2="130" y2="322"
+          marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <line class="sv-dim" x1="130" y1="322" x2="217.3" y2="322"
+          marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <line class="sv-dim" x1="217.3" y1="322" x2="235.3" y2="322"
+          marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <line class="sv-dim" x1="130" y1="366" x2="184" y2="366"
+          marker-start="url(#ar)" marker-end="url(#ar)"/>
+  </g>
+
+  <text class="sv-t" x="106" y="339" text-anchor="middle">5.2</text>
+  <text class="sv-t" x="174" y="339" text-anchor="middle">9.7</text>
+  <text class="sv-t hl" x="226" y="339" text-anchor="middle">2.0</text>
+
+  <text class="sv-lab" x="106" y="352" text-anchor="middle">BOARD</text>
+  <text class="sv-lab" x="174" y="352" text-anchor="middle">STANDOFF</text>
+  <text class="sv-lab" x="226" y="352" text-anchor="middle">PLATE</text>
+
+  <text class="sv-t hl" x="194" y="370">6.0 air gap</text>
+</svg>
