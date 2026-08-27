@@ -71,7 +71,7 @@ One source file, `src/skadis_101_mount.scad`, switched by the `part` variable.
 
 ### Bracket — `stl/101_skadis_bracket.stl`
 
-![The bracket](images/bracket.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/bracket-dark.png"><img src="images/bracket-light.png" alt="The bracket: a square plate with a perimeter ring and pegs on the back" width="420"></picture>
 
 A 112 × 112 × 2.0 mm plate that slides into the well under the tabs, with six
 SKÅDIS pegs on the back. This is the real answer.
@@ -99,7 +99,7 @@ spec.
 
 ### Cradle hooks — `stl/101_skadis_hooks.stl`, print 2
 
-![A cradle hook](images/hooks.png)
+<picture><source media="(prefers-color-scheme: dark)" srcset="images/hooks-dark.png"><img src="images/hooks-light.png" alt="A cradle hook: an L-shaped shelf with a front lip and two pegs" width="420"></picture>
 
 Two L-hooks the router simply sits in. These need **no** measurements of your
 unit's well, so they work even if the numbers above turn out to be off. Space
