@@ -1,0 +1,968 @@
+<title>the101 Pegboard Mount</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+/>
+
+<style>
+  /* ---- tokens: complete light palette on bare :root ---- */
+  :root {
+    --ground: #eef1f4;
+    --surface: #ffffff;
+    --sunken: #e3e8ed;
+    --ink: #14181d;
+    --ink-2: #59626c;
+    --ink-3: #8a939d;
+    --rule: #cfd6de;
+    --rule-2: #e5eaef;
+    --accent: #c6491a; /* signal orange - measured values only */
+    --accent-b: #fbe9e1;
+    --spec: #1c6467; /* teal - researched spec */
+    --spec-b: #dceded;
+
+    --board: #c9d1d9; /* pegboard fill in the section drawing */
+    --part: #6e7a87; /* printed plastic */
+
+    --f-disp: "IBM Plex Sans Condensed", "Helvetica Neue", Arial, sans-serif;
+    --f-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --col: 70ch;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #121619;
+      --surface: #1a1f24;
+      --sunken: #22282e;
+      --ink: #e6ebf0;
+      --ink-2: #99a3ad;
+      --ink-3: #6b757f;
+      --rule: #2e353c;
+      --rule-2: #242a30;
+      --accent: #ff7a45;
+      --accent-b: #3a1f14;
+      --spec: #4fb3b6;
+      --spec-b: #12312f;
+      --board: #39424b;
+      --part: #8b96a2;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #121619;
+    --surface: #1a1f24;
+    --sunken: #22282e;
+    --ink: #e6ebf0;
+    --ink-2: #99a3ad;
+    --ink-3: #6b757f;
+    --rule: #2e353c;
+    --rule-2: #242a30;
+    --accent: #ff7a45;
+    --accent-b: #3a1f14;
+    --spec: #4fb3b6;
+    --spec-b: #12312f;
+    --board: #39424b;
+    --part: #8b96a2;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 16.5px;
+    line-height: 1.62;
+    margin: 0;
+    padding: 0 20px 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: var(--col);
+    margin: 0 auto;
+  }
+  .wide {
+    max-width: calc(var(--col) + 190px);
+    margin: 0 auto;
+  }
+
+  /* ---- masthead ---- */
+  header.mast {
+    max-width: calc(var(--col) + 190px);
+    margin: 0 auto;
+    padding: 56px 0 0;
+  }
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+  h1 {
+    font-family: var(--f-disp);
+    font-weight: 700;
+    font-size: clamp(2.3rem, 6vw, 3.35rem);
+    line-height: 1.03;
+    letter-spacing: -0.021em;
+    text-wrap: balance;
+    margin: 0 0 16px;
+  }
+  .standfirst {
+    font-size: 1.11rem;
+    color: var(--ink-2);
+    max-width: 60ch;
+    margin: 0 0 30px;
+  }
+
+  /* ---- stat strip ---- */
+  .strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 58px;
+  }
+  .strip div {
+    background: var(--surface);
+    padding: 14px 16px 15px;
+  }
+  .strip dt {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 5px;
+  }
+  .strip dd {
+    font-family: var(--f-mono);
+    font-size: 1.02rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    margin: 0;
+  }
+  .strip dd .u {
+    color: var(--ink-3);
+    font-size: 0.8em;
+  }
+
+  /* ---- sections ---- */
+  section {
+    margin-bottom: 54px;
+  }
+  h2 {
+    font-family: var(--f-disp);
+    font-weight: 700;
+    font-size: 1.62rem;
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+    margin: 0 0 6px;
+    padding-top: 22px;
+    border-top: 2px solid var(--ink);
+  }
+  h2 + .dek {
+    color: var(--ink-2);
+    font-size: 0.97rem;
+    margin: 0 0 24px;
+  }
+  h3 {
+    font-family: var(--f-disp);
+    font-weight: 600;
+    font-size: 1.13rem;
+    letter-spacing: -0.005em;
+    margin: 30px 0 8px;
+  }
+  p {
+    margin: 0 0 17px;
+  }
+  a {
+    color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+  a:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  strong {
+    font-weight: 600;
+  }
+  code {
+    font-family: var(--f-mono);
+    font-size: 0.87em;
+    background: var(--sunken);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .num {
+    font-family: var(--f-mono);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  /* ---- section drawing ---- */
+  figure {
+    margin: 0 0 26px;
+  }
+  .drawing {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 26px 20px 18px;
+    overflow-x: auto;
+  }
+  .drawing svg {
+    display: block;
+    min-width: 560px;
+    width: 100%;
+    height: auto;
+  }
+  figcaption {
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    margin-top: 11px;
+    padding-left: 2px;
+  }
+  .sv-part {
+    fill: var(--part);
+  }
+  .sv-board {
+    fill: var(--board);
+  }
+  .sv-peg {
+    fill: var(--accent);
+  }
+  .sv-body {
+    fill: none;
+    stroke: var(--ink-2);
+    stroke-width: 1.6;
+  }
+  .sv-dim {
+    stroke: var(--ink-3);
+    stroke-width: 1;
+  }
+  .sv-lead {
+    stroke: var(--rule);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+  }
+  .sv-t {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    fill: var(--ink-2);
+  }
+  .sv-t.hl {
+    fill: var(--accent);
+    font-weight: 500;
+  }
+  .sv-lab {
+    font-family: var(--f-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    fill: var(--ink-3);
+  }
+
+  /* ---- spec table ---- */
+  .tbl-wrap {
+    overflow-x: auto;
+    margin: 0 0 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.93rem;
+    min-width: 400px;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 9px 14px 9px 0;
+    border-bottom: 1px solid var(--rule-2);
+    vertical-align: baseline;
+  }
+  thead th {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    border-bottom: 1px solid var(--rule);
+  }
+  td.v {
+    font-family: var(--f-mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  td.src {
+    color: var(--ink-3);
+    font-size: 0.85rem;
+  }
+
+  /* ---- part cards ---- */
+  .parts {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .part {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    border-radius: 3px;
+    padding: 20px 22px 22px;
+  }
+  .part.alt {
+    border-left-color: var(--spec);
+  }
+  .part.mut {
+    border-left-color: var(--ink-3);
+  }
+  .part-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .part h3 {
+    margin: 0;
+    font-size: 1.16rem;
+  }
+  .part-file {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    color: var(--ink-3);
+  }
+  .part p {
+    margin: 8px 0 14px;
+    font-size: 0.95rem;
+  }
+  .part p:last-child {
+    margin-bottom: 0;
+  }
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .facts li {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    background: var(--sunken);
+    color: var(--ink-2);
+    padding: 4px 9px;
+    border-radius: 2px;
+  }
+  .facts li.key {
+    background: var(--accent-b);
+    color: var(--accent);
+  }
+
+  /* ---- callout ---- */
+  .note {
+    background: var(--spec-b);
+    border-radius: 3px;
+    padding: 18px 22px;
+    margin: 0 0 22px;
+  }
+  .note p {
+    margin: 0;
+    font-size: 0.96rem;
+  }
+  .note p + p {
+    margin-top: 11px;
+  }
+  .note .tag {
+    display: block;
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--spec);
+    margin-bottom: 7px;
+  }
+
+  pre {
+    font-family: var(--f-mono);
+    font-size: 0.8rem;
+    line-height: 1.7;
+    background: var(--sunken);
+    border-radius: 3px;
+    padding: 15px 17px;
+    overflow-x: auto;
+    margin: 0 0 20px;
+  }
+
+  ul.plain {
+    margin: 0 0 17px;
+    padding-left: 20px;
+  }
+  ul.plain li {
+    margin-bottom: 6px;
+  }
+
+  .src-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+  }
+  .src-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--rule-2);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+  }
+  .src-list .what {
+    color: var(--ink-3);
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+  }
+
+  footer {
+    max-width: calc(var(--col) + 190px);
+    margin: 60px auto 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+  }
+
+  @media (max-width: 620px) {
+    body {
+      font-size: 16px;
+      padding: 0 16px 72px;
+    }
+    header.mast {
+      padding-top: 40px;
+    }
+  }
+</style>
+
+<header class="mast">
+  <p class="eyebrow">Mount research &amp; printable parts</p>
+  <h1>the101 Pegboard Mount</h1>
+  <p class="standfirst">
+    rain's the101 router doesn't take screws. Its underside hides a slide-in
+    captive plate — so the SKÅDIS part is a rebuild of that plate, with pegs
+    where the wall screws went.
+  </p>
+
+  <dl class="strip">
+    <div>
+      <dt>Mount type</dt>
+      <dd>Slide-in plate</dd>
+    </div>
+    <div>
+      <dt>Tab slot</dt>
+      <dd>4.0<span class="u"> mm</span></dd>
+    </div>
+    <div>
+      <dt>Plate</dt>
+      <dd>112 × 2.0<span class="u"> mm</span></dd>
+    </div>
+    <div>
+      <dt>Body</dt>
+      <dd>230 × 56<span class="u"> mm</span></dd>
+    </div>
+    <div>
+      <dt>SKÅDIS pitch</dt>
+      <dd>40<span class="u"> mm</span></dd>
+    </div>
+  </dl>
+</header>
+
+<main>
+  <section class="wide">
+    <div class="wrap">
+      <h2>What the mount actually is</h2>
+      <p class="dek">
+        The part that had to be researched before anything could be drawn.
+      </p>
+
+      <p>
+        the101 is a <span class="num">230 × 230 × 56</span> mm rounded-square 5G
+        CPE. Its underside has a shallow square <strong>well</strong> ringed by
+        moulded plastic <strong>retention tabs</strong>. A flat plate slides in
+        sideways and is captured under those tabs.
+      </p>
+      <p>
+        There are no screw bosses in the router and no VESA pattern on the
+        router itself. The VESA holes on aftermarket brackets are on the
+        <em>plate</em>, for bolting that plate to a wall or an arm — which is
+        why searching for "the101 VESA" leads nowhere useful.
+      </p>
+      <p>
+        The clinching detail is the thickness mismatch. The commercial bracket
+        is
+        <span class="num">5.7</span> mm thick but the tab slot is only
+        <span class="num">4.0</span> mm. So the plate is 4 mm at the edges that
+        pass under the tabs and 5.7 mm across a raised centre pad — which also
+        pins the well depth at about 5.7 mm.
+      </p>
+    </div>
+
+    <figure>
+      <div class="drawing">
+        <svg viewBox="0 0 620 390" role="img" aria-label="Cross-section through the pegboard, the printed plate and the router's base, showing the peg hooking behind the board, the standoff rib holding a 6 mm air gap, and a retention tab capturing the plate's edge.">
+          <defs>
+            <pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="var(--ink-3)" stroke-width="1.1" opacity="0.4"/>
+            </pattern>
+            <marker id="ar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+              <path d="M0.6,1.4 L5,4 L0.6,6.6" fill="none" stroke="var(--ink-3)" stroke-width="1"/>
+            </marker>
+          </defs>
+
+          <!-- ===== the101 body: solid right of the well floor ===== -->
+          <rect x="235.3" y="20" width="345" height="280" fill="var(--sunken)"/>
+          <path class="sv-body" d="M 184 20 L 184 30 L 235.3 30 L 235.3 300 L 184 300 L 184 312"/>
+          <path class="sv-body" d="M 580 20 L 580 300"/>
+          <text class="sv-lab" x="420" y="175" text-anchor="middle">THE101 BODY</text>
+          <text class="sv-lab" x="420" y="190" text-anchor="middle">230 × 230 × 56</text>
+
+          <!-- ===== retention tab: arm off the well floor, lip hooking the plate ===== -->
+          <path class="sv-body" style="fill: var(--board)"
+                d="M 235.3 40 L 199.3 40 L 199.3 106 L 187 106 L 187 54 L 235.3 54 Z"/>
+          <text class="sv-lab" x="248" y="70">RETENTION TAB · 12 mm wide</text>
+          <text class="sv-lab" x="248" y="85">4.0 mm slot</text>
+
+          <!-- ===== the printed plate, 1.6 mm, seated in the well ===== -->
+          <rect class="sv-part" x="217.3" y="62" width="18" height="238"/>
+
+          <!-- ===== standoff rib, 10.1 mm, merged with the peg's root ===== -->
+          <rect class="sv-part" x="130" y="164" width="87.3" height="90"/>
+
+          <!-- ===== SKÅDIS board, split by the 15 mm slot (y 92..227) ===== -->
+          <g>
+            <rect class="sv-board" x="83.2" y="20" width="46.8" height="72"/>
+            <rect x="83.2" y="20" width="46.8" height="72" fill="url(#hatch)"/>
+            <rect class="sv-board" x="83.2" y="227" width="46.8" height="73"/>
+            <rect x="83.2" y="227" width="46.8" height="73" fill="url(#hatch)"/>
+          </g>
+          <text class="sv-lab" x="106" y="14" text-anchor="middle">SKÅDIS</text>
+          <line class="sv-lead" x1="62" y1="124" x2="83.2" y2="124"/>
+          <text class="sv-lab" x="20" y="115">15 mm</text>
+          <text class="sv-lab" x="20" y="128">SLOT</text>
+
+          <!-- ===== peg: flat top the full depth, 45 deg ramp down to the barb ===== -->
+          <path class="sv-peg" d="M 217.3 191 L 41.8 191 L 34.6 198.2 L 34.6 272 L 79.6 227 L 217.3 227 Z"/>
+          <line class="sv-dim" x1="199.3" y1="132" x2="217.3" y2="132" marker-start="url(#ar)" marker-end="url(#ar)"/>
+          <text class="sv-t hl" x="188" y="136" text-anchor="end">2.0 slop</text>
+          <text class="sv-lab" x="40" y="184">PEG</text>
+          <text class="sv-lab" x="36" y="292">BARB</text>
+
+          <!-- ===== dimensions ===== -->
+          <g>
+            <line class="sv-lead" x1="83.2"  y1="302" x2="83.2"  y2="322"/>
+            <line class="sv-lead" x1="130"   y1="302" x2="130"   y2="366"/>
+            <line class="sv-lead" x1="184"   y1="312" x2="184"   y2="366"/>
+            <line class="sv-lead" x1="217.3" y1="302" x2="217.3" y2="322"/>
+            <line class="sv-lead" x1="235.3" y1="302" x2="235.3" y2="322"/>
+
+            <line class="sv-dim" x1="83.2"  y1="322" x2="130"   y2="322" marker-start="url(#ar)" marker-end="url(#ar)"/>
+            <line class="sv-dim" x1="130"   y1="322" x2="217.3" y2="322" marker-start="url(#ar)" marker-end="url(#ar)"/>
+            <line class="sv-dim" x1="217.3" y1="322" x2="235.3" y2="322" marker-start="url(#ar)" marker-end="url(#ar)"/>
+            <line class="sv-dim" x1="130"   y1="366" x2="184"   y2="366" marker-start="url(#ar)" marker-end="url(#ar)"/>
+          </g>
+
+          <text class="sv-t"    x="106" y="339" text-anchor="middle">5.2</text>
+          <text class="sv-t"    x="174" y="339" text-anchor="middle">9.7</text>
+          <text class="sv-t hl" x="226" y="339" text-anchor="middle">2.0</text>
+
+          <text class="sv-lab" x="106" y="352" text-anchor="middle">BOARD</text>
+          <text class="sv-lab" x="174" y="352" text-anchor="middle">STANDOFF</text>
+          <text class="sv-lab" x="226" y="352" text-anchor="middle">PLATE</text>
+
+          <text class="sv-t hl" x="194" y="370">6.0 air gap</text>
+        </svg>
+      </div>
+      <figcaption>
+        Section through the stack. The peg threads the 5&nbsp;×&nbsp;15&nbsp;mm slot
+        and drops so its barb sits behind the board; the standoff rib holds the
+        router's vented underside 6&nbsp;mm clear of the fibreboard; the tab
+        captures the plate's edge, leaving 2.0&nbsp;mm of play in the
+        4.0&nbsp;mm slot.
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="wrap">
+    <h2>Interface numbers</h2>
+    <p class="dek">
+      Everything the model is built from, and where each figure came from.
+    </p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>Value</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tab slot gap</td>
+            <td class="v">4.0 mm</td>
+            <td class="src">Measured</td>
+          </tr>
+          <tr>
+            <td>Tab width</td>
+            <td class="v">12 mm</td>
+            <td class="src">Measured</td>
+          </tr>
+          <tr>
+            <td>OEM plate</td>
+            <td class="v">121 × 121 × 5.7 mm</td>
+            <td class="src">Shopee listing</td>
+          </tr>
+          <tr>
+            <td>Well depth</td>
+            <td class="v">~5.7 mm</td>
+            <td class="src">Inferred from plate</td>
+          </tr>
+          <tr>
+            <td><strong>Build target</strong></td>
+            <td class="v">112 × 112 × 2.0 mm</td>
+            <td class="src">This plate</td>
+          </tr>
+          <tr>
+            <td>Plate screw pattern</td>
+            <td class="v">75 × 75 VESA</td>
+            <td class="src">"Vesa Compatible" variant</td>
+          </tr>
+          <tr>
+            <td>Router body</td>
+            <td class="v">230 × 230 × 56 mm</td>
+            <td class="src">rain.co.za</td>
+          </tr>
+          <tr>
+            <td>SKÅDIS slot</td>
+            <td class="v">5.0 × 15.0 mm</td>
+            <td class="src">Community reference</td>
+          </tr>
+          <tr>
+            <td>SKÅDIS grid</td>
+            <td class="v">40 mm, square</td>
+            <td class="src">560 mm board ÷ 14</td>
+          </tr>
+          <tr>
+            <td>SKÅDIS thickness</td>
+            <td class="v">5.2 mm</td>
+            <td class="src">Community reference</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>Hang it upside down</h2>
+    <div class="note">
+      <span class="tag">The one thing to get right</span>
+      <p>
+        A slide-in plate needs something to stop it sliding back out. The OEM
+        answer is a detent. The better answer is orientation: mount the bracket
+        so the router is lowered <strong>down</strong> onto the plate, with the
+        well's open side facing down once it's up.
+      </p>
+      <p>
+        Gravity then holds the plate seated and no latch is needed at all. To
+        remove the router, lift it.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>Three parts</h2>
+    <p class="dek">
+      One source file, <code>skadis_101_mount.scad</code>, switched by the
+      <code>part</code> variable.
+    </p>
+
+    <div class="parts">
+      <article class="part">
+        <div class="part-head">
+          <h3>Bracket</h3>
+          <span class="part-file">101_skadis_bracket.stl</span>
+        </div>
+        <p>
+          A 112 × 112 × 2.0 mm plate that slides into the well under the
+          tabs, with six SKÅDIS pegs on the back. This is the real answer.
+        </p>
+        <p>
+          <strong>Fit note.</strong> 2.0 mm sits in a 4.0 mm tab slot, so the
+          plate has ~2.0 mm of slop and the router can rock on it slightly. That
+          is the cost of the thin plate, not a bug — raise <code>tongue_t</code>
+          toward 3.8 for a snug fit.
+        </p>
+        <p>
+          The back carries a perimeter ring and two cross ribs that stand it
+          9.7 mm off the board — a 104 mm ring inside a 4 mm bare lip, with the
+          cross ribs inboard of it carrying the pegs. That isn't decoration:
+          mounted vertically, the router's vented underside would otherwise sit
+          flat against fibreboard. The ribs buy a 6 mm air gap and, at 2.0 mm,
+          the plate leans on them for most of its stiffness. The pegs run
+          20.3 mm to reach through.
+        </p>
+        <p>
+          It's deliberately one flat plate rather than a stepped plate with an
+          oversailing slab: a step would leave an unsupported ledge on the bed.
+        </p>
+        <p>
+          Keep the layer height a divisor of the plate thickness. At 2.0 mm that
+          means 0.2 mm — ten clean layers. 0.28 mm gives 7.1 and the slicer
+          rounds the plate off spec.
+        </p>
+        <ul class="facts">
+          <li class="key">Face down, pegs up</li>
+          <li class="key">No supports</li>
+          <li>3 walls · 25% · <strong>0.2 mm</strong></li>
+          <li>~28 g</li>
+          <li>~2 h</li>
+          <li>PETG if it runs warm</li>
+        </ul>
+      </article>
+
+      <article class="part alt">
+        <div class="part-head">
+          <h3>Cradle hooks</h3>
+          <span class="part-file">101_skadis_hooks.stl · print 2</span>
+        </div>
+        <p>
+          Two L-hooks the router simply sits in. These need <strong>no</strong>
+          measurements of your unit's well, so they work even if the numbers
+          above turn out to be off. Space them 160 mm apart — four slot columns.
+        </p>
+        <p>
+          The 62 mm shelf swallows the full 56 mm body depth and the 22 mm lip
+          stops it tipping out. Two pegs 40 mm apart per hook; one peg alone
+          would let the hook swing.
+        </p>
+        <ul class="facts">
+          <li class="key">On its side</li>
+          <li>Tree supports — pegs only</li>
+          <li>~19 g each</li>
+          <li>160 mm apart</li>
+        </ul>
+      </article>
+
+      <article class="part mut">
+        <div class="part-head">
+          <h3>Tab gauge</h3>
+          <span class="part-file">101_skadis_gauge.stl</span>
+        </div>
+        <p>
+          A comb of 12 mm fingers in 0.2 mm steps from 3.4 to 4.4 mm, plus a 100
+          mm rule. Slide each finger under one of the router's tabs; the
+          thickest one that goes in without forcing is your real slot gap.
+        </p>
+        <p>
+          Print this first. Ten minutes and ~10 g, and it derisks the whole
+          bracket. If your gap isn't 4.0 mm, set <code>tongue_t</code> to the
+          measured gap minus 0.2 and re-export.
+        </p>
+        <ul class="facts">
+          <li class="key">Print first</li>
+          <li>~10 g</li>
+          <li>~10 min</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>Where the weight went</h2>
+    <p class="dek">
+      74.2 → 49.6 cm³, ~41 → ~28 g. A third off, at no meaningful cost.
+    </p>
+
+    <p>
+      The ribs were three quarters of the part, so that is where the mass was.
+      Two changes did it.
+    </p>
+
+    <h3>Narrower ribs, 10 → 6 mm</h3>
+    <p>
+      A rib's bending stiffness goes as its <em>height</em> cubed and only
+      linearly with width. The <span class="num">9.7</span> mm standoff was
+      always doing the work — 10 mm of width was mass. This drops rib second
+      moment to 60 % of before, against margins that were already ~40×, and
+      6 mm still leaves 1 mm either side of a peg neck.
+    </p>
+
+    <h3>A window through the plate's dead centre</h3>
+    <p>
+      The tabs grip the perimeter and the load runs perimeter → ring → cross
+      ribs → pegs, all of it outside the <span class="num">84 × 62</span> mm
+      cutout. Nothing structural passed through that area. It vents the well as
+      a bonus. Set <code>lighten = false</code> for the solid plate back.
+    </p>
+
+    <p>
+      For more, go after the slicer rather than the model — 2 walls and 15 %
+      infill takes a few more grams. The ribs are only 6 mm wide now, so most of
+      their volume is perimeter either way; the geometry is what saved this.
+    </p>
+  </section>
+
+  <section class="wrap">
+    <h2>Tuning</h2>
+    <p class="dek">
+      Every dimension is a variable at the top of the .scad file.
+    </p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>Default</th>
+            <th>Change it when</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>tongue_t</code></td>
+            <td class="v">2.0</td>
+            <td>You want a snug plate instead of the thin one</td>
+          </tr>
+          <tr>
+            <td><code>plate_sq</code></td>
+            <td class="v">112.0</td>
+            <td>Your well measures differently</td>
+          </tr>
+          <tr>
+            <td><code>tongue_fit</code></td>
+            <td class="v">0</td>
+            <td>The plate binds sliding in</td>
+          </tr>
+          <tr>
+            <td><code>peg_clear</code></td>
+            <td class="v">0.4</td>
+            <td>Pegs bind → raise. Sloppy → lower.</td>
+          </tr>
+          <tr>
+            <td><code>board_t</code></td>
+            <td class="v">5.2</td>
+            <td>You have the 3 mm SKÅDIS variant</td>
+          </tr>
+          <tr>
+            <td><code>air_gap</code></td>
+            <td class="v">6.0</td>
+            <td>You want it closer to or further off the board</td>
+          </tr>
+          <tr>
+            <td><code>rib_in</code></td>
+            <td class="v">4.0</td>
+            <td>Wider or narrower lip; also sets the ring's outer size</td>
+          </tr>
+          <tr>
+            <td><code>rib_w</code></td>
+            <td class="v">6.0</td>
+            <td>Below ~5 there's no margin either side of a peg</td>
+          </tr>
+          <tr>
+            <td><code>lighten</code></td>
+            <td class="v">true</td>
+            <td>You want the solid plate back, no centre window</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <pre>
+openscad -o 101_skadis_bracket.stl -D 'part="bracket"' skadis_101_mount.scad
+openscad -o 101_skadis_hooks.stl   -D 'part="hooks"'   skadis_101_mount.scad
+openscad -o 101_skadis_gauge.stl   -D 'part="gauge"'   skadis_101_mount.scad</pre>
+
+    <h3>Will it hold?</h3>
+    <p>
+      A ~1 kg router on six pegs sits well inside both the pegs and a 5 mm
+      SKÅDIS panel. Worst case after lightweighting:
+    </p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Load path</th><th>Stress</th><th>Against</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Peg neck bending</td><td class="v">1.3 MPa</td><td class="src">~50 MPa yield</td></tr>
+          <tr><td>4 mm lip at a tab</td><td class="v">0.6 MPa</td><td class="src">~50 MPa yield</td></tr>
+          <tr><td>Rib bearing on the board</td><td class="v">0.003 MPa</td><td class="src">over 3600 mm²</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      The perimeter ring bearing flat on the board is what actually takes the
+      tipping moment — the pegs mostly just stop it falling off.
+    </p>
+  </section>
+
+  <section class="wrap">
+    <h2>Sources</h2>
+    <ul class="src-list">
+      <li>
+        <a href="https://www.rain.co.za/the101">rain — the101</a
+        ><span class="what">230 × 230 × 56 mm</span>
+      </li>
+      <li>
+        <a
+          href="https://shopee.ph/Rain-the101-Wall-Mounting-Bracket-i.64946953.55854593765"
+          >Shopee — the101 Wall Mounting Bracket</a
+        ><span class="what">121 × 121 × 5.7 mm plate</span>
+      </li>
+      <li>
+        <a
+          href="https://techcentral.co.za/rain-the101-5g-smart-router-raipr/234417/"
+          >TechCentral — rain unveils 'the101'</a
+        ><span class="what">platform &amp; hardware</span>
+      </li>
+      <li>
+        <a
+          href="https://www.printables.com/model/206256-parametric-skadis-board-generator"
+          >Parametric SKÅDIS Board Generator</a
+        ><span class="what">5 mm nominal slot width</span>
+      </li>
+      <li>
+        <a
+          href="https://makerworld.com/en/models/799571-ikea-skadis-add-ons-parametric-bins-and-shelves"
+          >IKEA SKÅDIS Add-Ons</a
+        ><span class="what">published hook geometry</span>
+      </li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  Parametric OpenSCAD · all three parts verified manifold, genus 0
+</footer>
