@@ -28,7 +28,8 @@ takes a minute.
 On a **printed SKÅDIS panel** rather than a genuine IKEA board? Printed panels
 are 3 mm thick, not 5.2 mm, so the peg barb must close on less material. Take
 the thin-board pair instead:
-[bracket](stl/101_skadis_bracket_3mm.stl) · [hooks](stl/101_skadis_hooks_3mm.stl).
+[bracket](stl/101_skadis_bracket_3mm.stl) · [hooks](stl/101_skadis_hooks_3mm.stl) ·
+[wedge](stl/101_skadis_wedge_3mm.stl).
 The slots and the grid are the same, so nothing else changes.
 
 **2. Slice it.**
@@ -48,6 +49,18 @@ part ~11 mm so the barbs catch behind the board.
 - **Bracket:** hang it so the router lowers **down** onto the plate, open side of
   the base facing down. Gravity holds it seated — no latch needed. To remove, lift.
 - **Hooks:** space them **160 mm apart** (four slot columns).
+
+**4. Lock it** (optional, recommended). A hung peg leaves 11 mm of empty slot
+above it, and that gap is how far the part can rise before it comes off —
+lifting the router can take the bracket with it. The
+[wedge](stl/101_skadis_wedge.stl) fills the gap. Push one in from **behind the
+panel**, above a peg, until the head meets the board. Two, diagonally opposite,
+also stop the bracket twisting. Pull them out to remove the bracket.
+
+| Without the wedge                                   | With the wedge                                     |
+| :-------------------------------------------------- | :------------------------------------------------- |
+| <img src="docs/images/lock-before.png" width="300"> | <img src="docs/images/lock-after.png" width="300"> |
+| 11 mm of lift travel above the peg                  | the gap is filled, so nothing rises                |
 
 ## Will it fit mine?
 

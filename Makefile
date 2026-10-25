@@ -5,7 +5,7 @@
 
 OPENSCAD ?= openscad
 SRC      := src/skadis_101_mount.scad
-PARTS    := bracket hooks
+PARTS    := bracket hooks wedge
 
 # A genuine IKEA board is 5.2 mm. A printed SKADIS panel is usually 3 mm, so
 # the peg barb must close on a thinner board. Only board_t changes.
@@ -17,11 +17,13 @@ THIN := 3.0
 VIEW           := --viewall --autocenter --projection=o --imgsize=1000,1000 --render
 CAM_bracket    := 0,0,0,60,0,30,0
 CAM_hooks      := 0,0,0,60,0,300,0
+CAM_wedge      := 0,0,0,62,0,35,0
 SCHEME_light   := Nature
 SCHEME_dark    := Tomorrow Night
 
 STLS := $(PARTS:%=stl/101_skadis_%.stl) $(PARTS:%=stl/101_skadis_%_3mm.stl)
-PNGS := $(PARTS:%=docs/images/%-light.png) $(PARTS:%=docs/images/%-dark.png)
+PNGS := $(PARTS:%=docs/images/%-light.png) $(PARTS:%=docs/images/%-dark.png) \
+        docs/images/lock-before.png docs/images/lock-after.png
 
 .PHONY: all preview clean
 all: $(STLS)
@@ -40,6 +42,18 @@ docs/images/%-light.png: $(SRC)
 
 docs/images/%-dark.png: $(SRC)
 	$(OPENSCAD) -q -o $@ --camera=$(CAM_$*) $(VIEW) --colorscheme="$(SCHEME_dark)" -D 'part="$*"' $<
+
+# The lock demo colours its own parts, so it keeps one scheme in both themes.
+DEMO     := docs/lock-demo.scad
+DEMO_CAM := 0,0,0,-22,0,18,0
+
+docs/images/lock-before.png: $(DEMO) $(SRC)
+	$(OPENSCAD) -q -o $@ --render --camera=$(DEMO_CAM) --viewall --autocenter \
+	  --projection=o --imgsize=820,900 --colorscheme="$(SCHEME_light)" -D 'show_wedge=false' $(DEMO)
+
+docs/images/lock-after.png: $(DEMO) $(SRC)
+	$(OPENSCAD) -q -o $@ --render --camera=$(DEMO_CAM) --viewall --autocenter \
+	  --projection=o --imgsize=820,900 --colorscheme="$(SCHEME_light)" -D 'show_wedge=true' $(DEMO)
 
 clean:
 	rm -f $(STLS)
