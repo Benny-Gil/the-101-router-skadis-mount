@@ -25,6 +25,12 @@ takes a minute.
 **1. Grab the STL** — GitHub previews these in the browser:
 [bracket](stl/101_skadis_bracket.stl) · [hooks](stl/101_skadis_hooks.stl) _(print two)_
 
+On a **printed SKÅDIS panel** rather than a genuine IKEA board? Printed panels
+are 3 mm thick, not 5.2 mm, so the peg barb must close on less material. Take
+the thin-board pair instead:
+[bracket](stl/101_skadis_bracket_3mm.stl) · [hooks](stl/101_skadis_hooks_3mm.stl).
+The slots and the grid are the same, so nothing else changes.
+
 **2. Slice it.**
 
 |                | Bracket                                                                              | Cradle hooks                       |

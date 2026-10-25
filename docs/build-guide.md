@@ -143,20 +143,45 @@ Every dimension is a variable at the top of the `.scad` file.
 | `plate_sq`   | 112.0   | Your well measures differently                         |
 | `tongue_fit` | 0       | The plate binds sliding in                             |
 | `peg_clear`  | 0.4     | Pegs bind → raise. Sloppy → lower.                     |
-| `board_t`    | 5.2     | You have the 3 mm SKÅDIS variant                       |
+| `board_t`    | 5.2     | Your board is not a genuine IKEA one — see below       |
 | `air_gap`    | 6.0     | You want it closer to or further off the board         |
 | `rib_in`     | 4.0     | Wider or narrower lip; also sets the ring's outer size |
 | `rib_w`      | 6.0     | Below ~5 there's no margin either side of a peg        |
 | `lighten`    | true    | You want the solid plate back, no centre window        |
 
 ```sh
-make            # re-export both STLs into stl/
+make            # re-export all four STLs into stl/
 make preview    # re-render the images
 
 # or, directly:
 openscad -o stl/101_skadis_bracket.stl -D 'part="bracket"' src/skadis_101_mount.scad
 openscad -o stl/101_skadis_hooks.stl   -D 'part="hooks"'   src/skadis_101_mount.scad
 ```
+
+### Printed SKÅDIS panels
+
+A printed SKÅDIS panel copies the slot and the grid exactly, but not the
+thickness. The panels measured for this project are **3.0 mm**, against
+5.2 mm for an IKEA board. The peg barb then closes 2.2 mm too far out and
+grips nothing, so the part hangs loose.
+
+`board_t` is the only variable that has to change, and `stl/*_3mm.stl` holds
+the result. The peg drops from 20.3 mm to 18.1 mm of protrusion; the plate,
+the ribs and the standoff do not move.
+
+Measured on a LabRax SKÅDIS rack panel, 1U to 10U:
+
+|                         | LabRax panel             | IKEA SKÅDIS              |
+| ----------------------- | ------------------------ | ------------------------ |
+| Thickness               | **3.00 mm**              | 5.2 mm                   |
+| Slot                    | 5.00 × 15.00 mm          | 5.0 × 15.0 mm            |
+| Slot pitch, along a row | 20 mm                    | 20 mm                    |
+| Row pitch               | 10 mm, rows offset 10 mm | 10 mm, rows offset 10 mm |
+
+The grid is staggered, not square: a row holds a slot every 20 mm, and the
+next row sits 10 mm up and 10 mm across. A 40 mm step therefore lands on a
+slot on both axes, which is what the six pegs assume. All 170 slots on the
+5U panel have a neighbour 40 mm away in X and in Y.
 
 ### Will it hold?
 
