@@ -65,7 +65,7 @@ Everything the model is built from, and where each figure came from.
 > Gravity then holds the plate seated and no latch is needed at all. To remove
 > the router, lift it.
 
-## Three parts
+## Two parts
 
 One source file, `src/skadis_101_mount.scad`, switched by the `part` variable.
 
@@ -110,35 +110,6 @@ tipping out. Two pegs 40 mm apart per hook; one peg alone would let the hook
 swing.
 
 > **On its side** · tree supports, pegs only · ~19 g each · 160 mm apart
-
-### Locking wedge — `stl/101_skadis_wedge.stl`
-
-<picture><source media="(prefers-color-scheme: dark)" srcset="images/wedge-dark.png"><img src="images/wedge-light.png" alt="The locking wedge: a tapered blade with an upright grip head" width="300"></picture>
-
-A hung peg rests its neck on the slot's bottom edge, so it fills only 4 mm of
-the 15 mm slot. The 11 mm above it is the lift travel: raise the bracket by
-that much and the barb clears the slot. Because the router is removed by
-lifting it off the plate, the bracket can come away with it.
-
-This blade fills the gap. One wedge stops the lift; a second one, diagonally
-opposite, also stops the bracket twisting on its pegs.
-
-| Without the wedge                              | With the wedge                                |
-| :--------------------------------------------- | :-------------------------------------------- |
-| <img src="images/lock-before.png" width="290"> | <img src="images/lock-after.png" width="290"> |
-
-**It enters from behind the panel.** The perimeter ring encircles all six pegs,
-so a head on the front face has no route out past the ring for a finger.
-Behind the board the space above the peg is clear, because the barb hangs
-below it. The head is taller than the gap the blade fills, so it cannot follow
-the blade through, and it doubles as the grip.
-
-The blade narrows by `wedge_taper` toward its tip, so it leads in easily and
-jams at the end. Raise `wedge_clear` if it binds in the slot, and `wedge_fit`
-if it will not enter.
-
-> **Print it flat as it comes out of the file.** No overhangs and no supports.
-> A pair takes a couple of minutes.
 
 ## Where the weight went
 

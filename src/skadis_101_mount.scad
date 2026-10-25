@@ -40,11 +40,10 @@
 //                no supports.
 //    "hooks"   - a pair of cradle hooks. Needs nothing but the published body
 //                size, so it works even if your unit's well differs at all.
-//    "wedge"   - a lock for one peg. Optional. See the module for why.
 // =============================================================================
 
 /* [What to render] */
-part = "bracket"; // [bracket:Slide-in plate, hooks:Cradle hooks, wedge:Peg lock, all:All laid out]
+part = "bracket"; // [bracket:Slide-in plate, hooks:Cradle hooks, all:Both laid out]
 
 /* [SKADIS board - leave alone for a genuine board] */
 skadis_pitch = 40;    // slot grid pitch, both axes
@@ -95,13 +94,6 @@ peg_rows = [40, -40];      // peg y positions. Spacings must be multiples of 40.
 /* [Weight saving] */
 lighten    = true;  // cut the dead centre out of the plate
 light_edge = 4.0;   // plate left between that cutout and the ribs
-
-/* [Locking wedge] */
-wedge_clear = 0.3;  // subtracted from slot_w for the blade width
-wedge_fit   = 0.2;  // play left between the blade and the slot's top edge
-wedge_taper = 0.6;  // how much the blade narrows toward its tip, so it jams
-wedge_head  = 2.0;  // head thickness
-wedge_grip  = 8.0;  // how far the head stands above the blade, to pinch
 
 /* [Cradle hooks] */
 body_t       = 56;   // the101 body thickness, from rain's spec
@@ -282,52 +274,12 @@ module cradle_hook() {
 }
 
 // =============================================================================
-//  Part 3: locking wedge
-// =============================================================================
-//  A hung peg rests its neck on the slot's bottom edge, which leaves
-//  (slot_h - neck_h) = 11 mm of empty slot above it. That gap is the lift
-//  travel: raise the bracket by it and the barb clears the slot and comes off.
-//  Lifting the router off the plate can take the bracket with it. This blade
-//  fills the gap, so the bracket cannot rise.
-//
-//  One wedge stops the lift. A second one, diagonally opposite, also stops the
-//  bracket twisting on its pegs.
-//
-//  IT ENTERS FROM BEHIND THE PANEL. The perimeter ring encircles all six pegs,
-//  so a head on the front face has no route out past the ring for a finger.
-//  Behind the board the space above the peg is clear, because the barb hangs
-//  below it.
-//
-//  PRINT: flat as it comes out, blade_w tall. No overhangs and no supports.
-
-module lock_wedge() {
-    w = slot_w - wedge_clear;              // blade width, inside the slot
-    h = slot_h - neck_h - wedge_fit;       // blade height, fills the lift gap
-    d = board_t + 0.6;                     // blade depth, right through the board
-
-    // The head is taller than the gap the blade fills, so it cannot follow the
-    // blade into the slot and it doubles as the grip.
-    linear_extrude(height = w)
-        polygon([
-            [-wedge_head, 0              ],
-            [0,           0              ],
-            [d,           wedge_taper    ],  // tip, narrowed so it leads in
-            [d,           h - wedge_taper],
-            [0,           h              ],
-            [0,           h + wedge_grip ],
-            [-wedge_head, h + wedge_grip ],
-        ]);
-}
-
-// =============================================================================
 //  Render
 // =============================================================================
 
 if      (part == "bracket") slide_in_bracket();
 else if (part == "hooks")   cradle_hook();
-else if (part == "wedge")   lock_wedge();
 else if (part == "all") {
     slide_in_bracket();
     translate([-120, 0, 0]) cradle_hook();
-    translate([-120, -60, 0]) lock_wedge();
 }
